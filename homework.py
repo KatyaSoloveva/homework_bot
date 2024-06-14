@@ -32,7 +32,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler()
 logger.addHandler(handler)
-file_handler = logging.FileHandler(__file__ + '.log', mode='a')
+file_handler = logging.FileHandler(__file__ + '.log', mode='a',
+                                   encoding='utf-8')
 logger.addHandler(file_handler)
 formatter = logging.Formatter('%(asctime)s, %(levelname)s, %(message)s,'
                               '%(funcName)s, %(lineno)d')
@@ -131,7 +132,7 @@ def main():
             if (status_message != previous_var
                     and send_message(bot, status_message)):
                 previous_var = status_message
-                timestamp = response.get('current_date')
+                timestamp = response.get('current_date', timestamp)
             else:
                 logger.debug('В ответе отсутствуют новые статусы.')
         except Exception as error:
